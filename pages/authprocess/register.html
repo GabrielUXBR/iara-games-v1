@@ -36,7 +36,7 @@
                         password: password,
                         options: {
                             data: {
-                                username: username,
+                                name: username,
                             }
                         }
                     });
@@ -46,9 +46,8 @@
                     alert("Cadastro realizado com sucesso! Verifique seu e-mail para confirmar.");
                     console.log("Usuário registrado:", data.user);
 
-                    // Redirecionar para a página de login
-                    window.location.href = "/pages/authprocess/login.html"; // Ajuste o caminho conforme necessário
-                } catch (error) {
+                    window.location.href = "/pages/authprocess/login.html";
+                                } catch (error) {
                     alert("Erro no cadastro: " + error.message);
                 }
             });

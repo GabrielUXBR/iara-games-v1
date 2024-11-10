@@ -37,10 +37,14 @@
     
                     if (error) throw error;
     
+                    // Armazena informações do usuário no LocalStorage
+                    localStorage.setItem("user", JSON.stringify(data.user));
+    
                     alert("Login realizado com sucesso!");
                     console.log("Usuário logado:", data.user);
-                    // Redirecionar após login bem-sucedido
-                    window.location.href = "/index.html"; // Ajuste o caminho conforme necessário
+
+                    // Redirecionar para a página de perfil
+                    window.location.href = "/pages/users/profile.html"; // Ajuste o caminho conforme necessário
                 } catch (error) {
                     alert("Erro no login: " + error.message);
                 }
@@ -75,7 +79,9 @@
                         <div class="row">
                             <button class="btn btn-primary btn-lg btn-block my-4" type="submit">Fazer Login</button>
                             <button id="registerButton" type="button" class="btn btn-tertiary">Criar conta</button>
-                            <button id="forgotPasswordButton" type="button" class="btn btn-link"><a href="/pages/authprocess/new-password.html">Esqueci minha senha</a></button>
+                            <button id="forgotPasswordButton" type="button" class="btn btn-link">
+                                <a href="/pages/authprocess/forgot-password.html">Esqueci minha senha</a>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -84,6 +90,5 @@
             </div>
         </div>
     </div>
-    </body>
-    
+</body>
 </html>

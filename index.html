@@ -11,6 +11,57 @@
   <link rel="stylesheet" type="text/css" href="/components/style.css">
   <link rel="stylesheet" type="text/css" href="/components/hero.css">
   <link rel="stylesheet" type="text/css" href="/components/buttons.css">
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js';
+
+    // Configuração do Supabase
+    const SUPABASE_URL = "https://imfioovfbgaeyuiwspwn.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImltZmlvb3ZmYmdhZXl1aXdzcHduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NDc2ODUsImV4cCI6MjA0NTIyMzY4NX0.u-pUNNtqyWQls-sdmXmTdRyMrzBClSFuSSqAqorgykQ";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const navbar = document.querySelector(".navbar-nav");
+      const { data: { user }, error } = await supabase.auth.getUser();
+
+      if (user) {
+        // Se o usuário estiver logado
+        const userName = user.user_metadata.name || "Usuário";
+        const userAvatar = user.user_metadata.avatar || "https://source.unsplash.com/50x50/?avatar,person";
+
+        navbar.innerHTML = `
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="${userAvatar}" alt="${userName}" class="rounded-circle me-2" style="width: 30px; height: 30px;">
+              ${userName}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" href="/pages/users/profile.html">Meu Perfil</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" id="logoutButton" href="#">Sair</a></li>
+            </ul>
+          </li>
+        `;
+
+        // Evento de logout
+        document.querySelector("#logoutButton").addEventListener("click", async () => {
+          await supabase.auth.signOut();
+          alert("Você saiu da conta.");
+          window.location.reload(); // Recarrega a página
+        });
+      } else {
+        // Se o usuário não estiver logado
+        navbar.innerHTML = `
+          <li class="nav-item">
+            <a class="nav-link active py-2 px-0 px-lg-2" href="/pages/authprocess/login.html">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active py-2 px-0 px-lg-2" href="/pages/authprocess/register.html">Cadastre-se</a>
+          </li>
+        `;
+      }
+    });
+  </script>
 </head>
 
 <body>
